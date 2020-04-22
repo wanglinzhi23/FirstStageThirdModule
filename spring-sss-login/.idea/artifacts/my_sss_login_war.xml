@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="my-sss-login:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="spring-sss-login-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="my-sss-login:war exploded" />
+    </root>
+  </artifact>
+</component>
