@@ -19,7 +19,7 @@ public class DemoController {
 	@MySecurity(value = "zhangsan")
 	public String resource1(String name) {
 
-		return demoService.get(name);
+		return demoService.get();
 	}
 
 	@MyRequestMapping("/resource2")

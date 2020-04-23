@@ -1,6 +1,5 @@
 package com.lagou.edu.mvcframework.pojo;
 
-import lombok.Data;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import java.util.regex.Pattern;
 /**
  * 封装handler方法相关的信息
  */
-@Data
 public class Handler {
 
     private Object controller; // method.invoke(obj,)
@@ -34,4 +32,43 @@ public class Handler {
         this.paramIndexMapping = new HashMap<>();
     }
 
+    public Object getController() {
+        return controller;
+    }
+
+    public void setController(Object controller) {
+        this.controller = controller;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public void setMethod(Method method) {
+        this.method = method;
+    }
+
+    public Pattern getPattern() {
+        return pattern;
+    }
+
+    public void setPattern(Pattern pattern) {
+        this.pattern = pattern;
+    }
+
+    public Map<String, Integer> getParamIndexMapping() {
+        return paramIndexMapping;
+    }
+
+    public void setParamIndexMapping(Map<String, Integer> paramIndexMapping) {
+        this.paramIndexMapping = paramIndexMapping;
+    }
+
+    public Set<String> getSecureList() {
+        return secureList;
+    }
+
+    public void setSecureList(Set<String> secureList) {
+        this.secureList = secureList;
+    }
 }

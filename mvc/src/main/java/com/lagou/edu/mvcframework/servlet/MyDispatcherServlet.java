@@ -85,9 +85,11 @@ public class MyDispatcherServlet extends HttpServlet {
 			// 获取ioc中当前遍历的对象的class类型
 			Class<?> aClass = entry.getValue().getClass();
 			MySecurity mySecure = (MySecurity) aClass.getAnnotation(MySecurity.class);
-			Set<String> userNames = new HashSet<>();
-			String[] userName = mySecure.value();
-			userNames.addAll(Arrays.asList(userName));
+			Set<String> userNameClass = new HashSet<>();
+			if(mySecure!=null) {
+				String[] userName = mySecure.value();
+				userNameClass.addAll(Arrays.asList(userName));
+			}
 			if (!aClass.isAnnotationPresent(MyController.class)) {
 				continue;
 			}
@@ -104,7 +106,8 @@ public class MyDispatcherServlet extends HttpServlet {
 			Method[] methods = aClass.getMethods();
 			for (int i = 0; i < methods.length; i++) {
 				Method method = methods[i];
-
+				Set<String> userNameMethod = new HashSet<>();
+				userNameMethod.addAll(userNameClass);
 				//  方法没有标识LagouRequestMapping，就不处理
 				if (!method.isAnnotationPresent(MyRequestMapping.class)) {
 					continue;
@@ -112,14 +115,16 @@ public class MyDispatcherServlet extends HttpServlet {
 
 				// 如果标识，就处理
 				MySecurity mySecureMethod = (MySecurity) method.getAnnotation(MySecurity.class);
-				userNames.addAll(Arrays.asList(mySecureMethod.value()));
+				if(mySecureMethod!=null) {
+					userNameMethod.addAll(Arrays.asList(mySecureMethod.value()));
+				}
 				MyRequestMapping annotation = method.getAnnotation(MyRequestMapping.class);
 				String methodUrl = annotation.value();  // /query
 				String url = baseUrl + methodUrl;    // 计算出来的url /demo/query
 
 				// 把method所有信息及url封装为一个Handler
 				Handler handler = new Handler(entry.getValue(), method, Pattern.compile(url));
-				handler.setSecureList(userNames);
+				handler.setSecureList(userNameMethod);
 
 				// 计算方法的参数位置信息  // query(HttpServletRequest request, HttpServletResponse response,String name)
 				Parameter[] parameters = method.getParameters();
@@ -352,17 +357,20 @@ public class MyDispatcherServlet extends HttpServlet {
 		}
 
 
-		int requestIndex = handler.getParamIndexMapping().get(HttpServletRequest.class.getSimpleName()); // 0
+		/*int requestIndex = handler.getParamIndexMapping().get(HttpServletRequest.class.getSimpleName()); // 0
 		paraValues[requestIndex] = req;
 
 
 		int responseIndex = handler.getParamIndexMapping().get(HttpServletResponse.class.getSimpleName()); // 1
-		paraValues[responseIndex] = resp;
+		paraValues[responseIndex] = resp;*/
 
 
 		// 最终调用handler的method属性
 		try {
-			handler.getMethod().invoke(handler.getController(), paraValues);
+		Object o =	handler.getMethod().invoke(handler.getController(), paraValues);
+			resp.setCharacterEncoding(StandardCharsets.UTF_8.displayName());
+			resp.setHeader("content-type","text/html;charset=UTF-8");
+			resp.getWriter().write((String)o);
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
