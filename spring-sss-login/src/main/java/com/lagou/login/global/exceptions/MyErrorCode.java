@@ -3,7 +3,7 @@ package com.lagou.login.global.exceptions;
 /**
  * MyErrorCode
  *
- * @author 大犬
+ * @author wanglinzhi
  * @date 2020/4/9
  */
 public enum MyErrorCode {

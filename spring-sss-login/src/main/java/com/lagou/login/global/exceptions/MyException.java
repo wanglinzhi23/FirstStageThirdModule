@@ -1,14 +1,11 @@
 package com.lagou.login.global.exceptions;
 
-import lombok.Data;
-
 /**
  * MyException
  *
- * @author 大犬
+ * @author wanglinzhi
  * @date 2020/4/9
  */
-@Data
 public class MyException extends RuntimeException {
 
     private MyErrorCode myErrorCode;
@@ -23,4 +20,19 @@ public class MyException extends RuntimeException {
         this.params = params;
     }
 
+	public MyErrorCode getMyErrorCode() {
+		return myErrorCode;
+	}
+
+	public void setMyErrorCode(MyErrorCode myErrorCode) {
+		this.myErrorCode = myErrorCode;
+	}
+
+	public Object[] getParams() {
+		return params;
+	}
+
+	public void setParams(Object[] params) {
+		this.params = params;
+	}
 }

@@ -17,7 +17,7 @@
         http://www.springframework.org/schema/data/jpa
         https://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <context:component-scan base-package="com.lagou.niancheng.login"/>
+    <context:component-scan base-package="com.lagou.login"/>
 
     <context:annotation-config/>
 
@@ -72,7 +72,7 @@
         <!--配置数据源-->
         <property name="dataSource" ref="dataSource"/>
         <!--配置包扫描-->
-        <property name="packagesToScan" value="com.lagou.niancheng.login.global.entity"/>
+        <property name="packagesToScan" value="com.lagou.login.global.entity"/>
         <!--指定jpa的具体实现-->
         <property name="persistenceProvider">
             <bean class="org.hibernate.jpa.HibernatePersistenceProvider"/>
@@ -98,7 +98,7 @@
     </bean>
 
     <!--jpaRepository接口扫描-->
-    <jpa:repositories base-package="com.lagou.niancheng.login.dao"
+    <jpa:repositories base-package="com.lagou.login.dao"
                       entity-manager-factory-ref="entityManagerFactory"
                       transaction-manager-ref="jpaTransactionManager"/>
 
